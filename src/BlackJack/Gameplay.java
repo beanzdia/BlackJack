@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class Gameplay extends JPanel {
     private int width;
     private int height;
-    private ImageIcon titleImage;
     private Rectangle2D hitButton;
     private Rectangle2D holdButton;
     private Rectangle2D textButton;
@@ -32,7 +31,6 @@ public class Gameplay extends JPanel {
     private boolean splitHand = false;
     private boolean newAce = false;
     TextAlignment textAlign = new TextAlignment();
-    private ArrayList<DeckGenerator> decks;
 
     public Gameplay(int width, int height) {
         this.width = width;
@@ -67,8 +65,6 @@ public class Gameplay extends JPanel {
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                System.out.println(e);
-                //
                 if ((e.getButton() == 1) && holdButton.contains(e.getX(), e.getY()) && game && player.hand.size() >= 2 && !newAce) {
                     game = false;
                     dealer.getHand().get(1).setFaceUp(true);
@@ -228,7 +224,7 @@ public class Gameplay extends JPanel {
         int p1Hand = player.handValue();
         int idxAce = dealer.indexOfNewAce();
         if (idxAce != -1) {
-            if (dealerHand <= 11) {
+            if (dealerHand <= 5) {
                 dealer.hand.get(idxAce).getRank().setRankValue(11);
             } else {
                 dealer.hand.get(idxAce).getRank().setRankValue(1);

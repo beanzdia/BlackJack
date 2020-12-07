@@ -10,6 +10,8 @@ public class Main {
         obj.setBounds(0, 0, 700, 600);
         //obj.setFont(new Font("serif", Font.BOLD, 90));
         obj.setTitle("Blackjack");
+        ImageIcon a = new ImageIcon("src/img/icon.png");
+        obj.setIconImage(a.getImage());
         obj.setResizable(false);
         obj.setVisible(true);
         obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
