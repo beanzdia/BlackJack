@@ -5,16 +5,16 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame obj = new JFrame();
-        Gameplay gamePlay = new Gameplay(700,600);
-        obj.setBounds(0, 0, 700, 600);
-        //obj.setFont(new Font("serif", Font.BOLD, 90));
-        obj.setTitle("Blackjack");
+        JFrame window = new JFrame();
+        Gameplay gamePlay = new Gameplay();
+        window.getContentPane().addMouseListener(new GameListener(gamePlay));
+        window.setBounds(0, 0, 700, 600);
+        window.setTitle("Blackjack");
         ImageIcon a = new ImageIcon("src/img/icon.png");
-        obj.setIconImage(a.getImage());
-        obj.setResizable(false);
-        obj.setVisible(true);
-        obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        obj.add(gamePlay);
+        window.setIconImage(a.getImage());
+        window.setResizable(false);
+        window.setVisible(true);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.add(gamePlay);
     }
 }

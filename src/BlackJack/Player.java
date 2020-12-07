@@ -9,6 +9,7 @@ public class Player {
     private int bid;
     public ArrayList<Card> hand;
     public ArrayList<Card> splitHand;
+    public boolean newAce = false;
 
     public Player(String pid) {
         this.pid = pid;
