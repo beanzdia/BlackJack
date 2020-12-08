@@ -1,6 +1,7 @@
 package BlackJack;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Player {
 
@@ -10,6 +11,7 @@ public class Player {
     public ArrayList<Card> hand;
     public ArrayList<Card> splitHand;
     public boolean newAce = false;
+    public ArrayList<Card> ace;
 
     public Player(String pid) {
         this.pid = pid;
@@ -17,6 +19,7 @@ public class Player {
         this.bid = 0;
         hand = new ArrayList<Card>();
         splitHand = new ArrayList<Card>();
+        ace = new ArrayList<>();
     }
 
     public void add(Card card) {
@@ -31,23 +34,17 @@ public class Player {
         return sum;
     }
 
-    public Card containsNewAce() {
-        for (Card card : hand) {
-            if (card.getRank().getRankLabel().equals("ace") && card.getRank().getRankValue() == 0) {
-                return card;
+    public void containsNewAce(int idx) {
+        for (int i = idx; i < hand.size(); i++) {
+            Card card = hand.get(i);
+            if (card.getRank().getRankLabel().equals("ace")) {
+                if (handValue() - card.getRank().rankValue <= 10) {
+                    hand.set(i, new Card(card.getSuit(), Card.Rank.ACE11));
+                } else {
+                    hand.set(i, new Card(card.getSuit(), Card.Rank.ACE));
+                }
             }
         }
-        return null;
-    }
-
-    public int indexOfNewAce() {
-        for (int i = 0; i < hand.size(); i++) {
-            Card temp = hand.get(i);
-            if (temp.getRank().getRankValue() == 0 && temp.getRank().getRankLabel().equals("ace")) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     public String toString() {
@@ -57,6 +54,14 @@ public class Player {
         }
         result += handValue();
         return result;
+    }
+
+    public void updateFunds(String result) {
+        if (result.equalsIgnoreCase("Dealer wins!")) {
+            this.funds = getFunds() - getBid();
+        } else if (result.equalsIgnoreCase("Player wins!")) {
+            this.funds = getFunds() + getBid();
+        }
     }
 
     public void clear() {

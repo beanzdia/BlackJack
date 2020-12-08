@@ -22,7 +22,7 @@ public class Card {
         TWO(2, "two"), THREE(3, "three"), FOUR(4, "four"), FIVE(5,"five"),
         SIX(6, "six"), SEVEN(7, "seven"), EIGHT (8, "eight"), NINE(9, "nine"),
         TEN(10, "ten"), KING(10, "king"), QUEEN(10, "queen"), JACK(10, "jack"),
-        ACE1(1, "ace"), ACE11(11, "ace");
+        ACE(1, "ace"), ACE11(11,"ace");
 
         public int rankValue;
         public final String rankLabel;
@@ -45,8 +45,8 @@ public class Card {
         }
     }
 
-    private final Suit suit;
-    private final Rank rank;
+    private Suit suit;
+    private Rank rank;
     private boolean faceUp;
 
     public Card (Suit suit, Rank rank) {
@@ -73,6 +73,8 @@ public class Card {
     public Rank getRank() {
         return this.rank;
     }
+
+    public void setRank(Rank rank) {this.rank = rank;}
 
     public String toString() {
         return "Suit: " + suit + " Value: " + rank;

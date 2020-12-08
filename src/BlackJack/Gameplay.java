@@ -23,6 +23,7 @@ public class Gameplay extends JPanel {
     private DeckGenerator genPlayerDeck;
     private DeckGenerator genDealerDeck;
     public boolean game = true;
+    public boolean bid = true;
     TextAlignment textAlign = new TextAlignment();
 
     public Gameplay() {
@@ -46,13 +47,47 @@ public class Gameplay extends JPanel {
 
         // Create player hand
         player = new Player("You");
+        Card p1 = new Card(Card.Suit.CLUBS, Card.Rank.TEN);
+        Card p2 = new Card(Card.Suit.CLUBS, Card.Rank.TWO);
+        player.add(p1);
+        player.add(p2);
 
         // Create dealer hand
         dealer = new Player("Dealer");
+        /*
+        Card dealerFirst = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
+        Card dealerSecond = new Card(Card.Suit.SPADES, Card.Rank.ACE);
+        */
+        /*
+        Card dealerFirst = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
+        Card dealerSecond = new Card(Card.Suit.DIAMONDS, Card.Rank.TWO);
+        */
+        /*
+        Card dealerFirst = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
+        Card dealerSecond = new Card(Card.Suit.DIAMONDS, Card.Rank.KING);
+        */
+        /*
+        Card dealerFirst = new Card(Card.Suit.CLUBS, Card.Rank.QUEEN);
+        Card dealerSecond = new Card(Card.Suit.DIAMONDS, Card.Rank.ACE);
+        */
+
+        //Card dealerFirst = new Card(Card.Suit.SPADES, Card.Rank.FOUR);
+        //Card dealerSecond = new Card(Card.Suit.CLUBS, Card.Rank.NINE);
+        //Card dealerThird = new Card(Card.Suit.CLUBS, Card.Rank.EIGHT);
+        //Card dealerFourth = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
+
+
+        //dealer.add(dealerFirst);
+        //dealer.add(dealerSecond);
+        //dealer.add(dealerThird);
+        //dealer.add(dealerFourth);
+
         dealer.add(deck.draw());
         Card dealerCardTwo = deck.draw();
         dealerCardTwo.setFaceUp(false);
         dealer.add(dealerCardTwo);
+
+
     }
 
     public void paint(Graphics g) {
@@ -92,11 +127,16 @@ public class Gameplay extends JPanel {
             aceDraw((Graphics2D) g);
         }
 
+        if ((player.getBid() == 0)) {
+            noBidDraw((Graphics2D) g);
+        }
+
         if (!game) {
             dealer.getHand().get(1).setFaceUp(true);
             dealerHit();
             repaint();
             gameResult((Graphics2D) g);
+            bid = true;
         }
         g.dispose();
     }
@@ -106,7 +146,18 @@ public class Gameplay extends JPanel {
         g.setColor(Color.white);
         g.fill(textButton);
         g.setColor(Color.black);
-        textAlign.drawCenteredString(g, gameHelperResult() + textButton.getText(), textButton, new Font("serif", Font.BOLD, 28));
+        String result = gameHelperResult();
+        textAlign.drawCenteredString(g, result + textButton.getText(), textButton, new Font("serif", Font.BOLD, 28));
+        player.updateFunds(result);
+        if (player.getFunds() == 0) {
+            g.setColor(Color.white);
+            g.fillRect(200,266 + 108 / 2 - 35 / 2 + 35,435, 35);
+            g.setColor(Color.black);
+            textAlign.drawCenteredString(g,"Ran out of Funds!", new Rectangle2D.Double(200,266 + 108 / 2 - 35 / 2 + 35,435, 35),
+                    new Font("serif", Font.BOLD, 28));
+            // player.setFunds(2500);
+        }
+        player.setBid(0);
     }
 
     // Returns a string for all of the win/lose/push scenarios
@@ -126,20 +177,13 @@ public class Gameplay extends JPanel {
 
     // Logic for dealer hitting on their hand
     public void dealerHit() {
+        dealer.containsNewAce(0);
         int dealerHand = dealer.handValue();
-        int p1Hand = player.handValue();
-        int idxAce = dealer.indexOfNewAce();
-        if (idxAce != -1) {
-            if (dealerHand <= 10) {
-                dealer.hand.get(idxAce).getRank().setRankValue(11);
-            } else {
-                dealer.hand.get(idxAce).getRank().setRankValue(1);
-            }
-        }
-        dealerHand = dealer.handValue();
-        if (p1Hand < 21) {
-            while (dealerHand < 21 && dealerHand < p1Hand) {
+        int playerHand = player.handValue();
+        if (playerHand < 21) {
+            while (dealerHand < 21 && dealerHand < playerHand) {
                 dealer.add(deck.draw());
+                dealer.containsNewAce(dealer.hand.size() - 1);
                 dealerHand = dealer.handValue();
             }
         }
@@ -154,5 +198,12 @@ public class Gameplay extends JPanel {
         textAlign.drawCenteredStringTop(g, "Click on Ace Value:", temp, new Font("serif", Font.BOLD, 22));
         rectOne.draw(g,Color.blue, new Font("serif", Font.BOLD, 28));
         rectEleven.draw(g,Color.blue, new Font("serif", Font.BOLD, 28));
+    }
+
+    public void noBidDraw(Graphics2D g) {
+        g.setColor(Color.white);
+        g.fillRect(200,266 + 108 / 2 - 35 / 2,435, 35);
+        g.setColor(Color.black);
+        textAlign.drawCenteredString(g, "Please enter a bid:", new Rectangle2D.Double(200,266 + 108 / 2 - 35 / 2,435, 35), new Font("serif", Font.BOLD, 28));
     }
 }

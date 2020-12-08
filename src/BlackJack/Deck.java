@@ -14,7 +14,7 @@ public class Deck {
     public void fillDeck() {
         for (Card.Suit mySuit : Card.Suit.values()) {
             for (Card.Rank myVal : Card.Rank.values()) {
-                if (!myVal.equals(Card.Rank.ACE11)) {
+                if (myVal.rankValue != 11) {
                     deck.add(new Card(mySuit, myVal));
                 }
             }
