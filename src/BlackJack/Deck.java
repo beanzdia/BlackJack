@@ -50,6 +50,10 @@ public class Deck {
         deck.remove(card);
     }
 
+    public void add(Card card) {
+        deck.add(card);
+    }
+
     public String toString() {
         String result = "";
         for (Card card : deck) {

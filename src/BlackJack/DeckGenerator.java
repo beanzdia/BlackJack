@@ -27,6 +27,7 @@ public class DeckGenerator extends Component {
         TextAlignment textAlign = new TextAlignment();
         this.splitHand = splitHand;
         this.deck = player.getHand();
+        this.splitDeck = player.getSplitHand();
         this.player = player;
         yesButton = new Rectangle2D.Double(125, 150,75,50);
         noButton = new Rectangle2D.Double(225, 150,75,50);
@@ -47,10 +48,10 @@ public class DeckGenerator extends Component {
     }
 
     // Draw the dealers hand when the player is the dealer
-    public void dealerDraw(Graphics2D g, boolean game) {
+    public void dealerDraw(Graphics2D g, boolean game, boolean splitGame) {
         g.setColor(Color.black);
         g.setFont(new Font("serif", Font.BOLD, 30));
-        if (game) {
+        if (game || splitGame) {
             g.drawString("Hand: " + player.hand.get(0).getRank().getRankValue(), 20, 150);
         } else {
             g.drawString("Hand: " + player.handValue(), 20, 150);
@@ -64,16 +65,21 @@ public class DeckGenerator extends Component {
 
     // potential splitdraw method
     public void splitDraw(Graphics2D g) {
-        g.setColor(Color.gray);
-        g.fillRect(100, 100,200,200);
         g.setColor(Color.black);
-        g.drawString("Click whether you want to split your hand: ",100,100);
-        g.setColor(Color.blue);
-        g.fill(yesButton);
-        g.fill(noButton);
-        g.setColor(Color.black);
-        g.drawString("Yes",125,150);
-        g.drawString("No",225,150);
+        g.setFont(new Font("serif", Font.BOLD, 26));
+        g.drawString("Hand: " + player.handValue(), 20,266 + 50);
+        g.drawString("Funds: $" + player.getFunds(), 20,266 + 75);
+        g.drawString("Bid: $" + player.getBid(), 20, 266 + 100);
+        g.drawString("Hand: " + player.splitHandValue(), 300 + 75,266 + 50);
+        g.drawString("Bid: $" + player.getSplitBid(), 300 + 75,266 + 75);
+        g.setColor(Color.white);
+        for (int i = 0; i < deck.size(); i++) {
+            ImageIcon temp = deck.get(i).drawCardImage();
+            temp.paintIcon(this,g, 200 + (cardWidth / 8) * i, 266);
+        }
+        for (int i = 0; i < splitDeck.size(); i++) {
+            ImageIcon temp = splitDeck.get(i).drawCardImage();
+            temp.paintIcon(this,g, 500 + (cardWidth / 8) * i, 266);
+        }
     }
-
 }

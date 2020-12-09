@@ -16,16 +16,15 @@ public class GameListener extends MouseAdapter {
             if (gamePlay.game) {
                 if (gamePlay.holdButton.contains(e.getX(), e.getY()) && gamePlay.player.hand.size() >= 2 && !gamePlay.player.newAce) {
                     gamePlay.game = false;
-                    gamePlay.dealer.getHand().get(1).setFaceUp(true);
                 }
-                if (gamePlay.hitButton.contains(e.getX(), e.getY()) && !gamePlay.player.newAce) {
-                    if (!(gamePlay.player.getBid() == 0)) {
-                        gamePlay.bid = false;
+                if (gamePlay.hitButton.contains(e.getX(), e.getY()) && !gamePlay.player.newAce && gamePlay.bid) {
+                    if (gamePlay.bid) {
                         Card temp = gamePlay.deck.draw();
                         if (temp.getRank().getRankLabel().equals("ace")) {
                             gamePlay.player.newAce = true;
                         }
                         gamePlay.player.add(temp);
+                        //gamePlay.player.add(gamePlay.test.draw());
                         if (gamePlay.deck.deck.isEmpty()) {
                             gamePlay.deck.deck.clear();
                             gamePlay.deck.fillDeck();
@@ -41,19 +40,19 @@ public class GameListener extends MouseAdapter {
                         }
                     }
                 }
-                if (gamePlay.rectOne.contains(e.getX(), e.getY())) {
+                if (gamePlay.rectOne.contains(e.getX(), e.getY()) && gamePlay.player.newAce) {
                     ArrayList<Card> player = gamePlay.player.hand;
                     Card aceCard = player.get(player.size() - 1);
                     gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE));
                     gamePlay.player.newAce = false;
                 }
-                if (gamePlay.rectEleven.contains(e.getX(), e.getY())) {
+                if (gamePlay.rectEleven.contains(e.getX(), e.getY()) && gamePlay.player.newAce) {
                     ArrayList<Card> player = gamePlay.player.hand;
                     Card aceCard = player.get(player.size() - 1);
                     gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE11));
                     gamePlay.player.newAce = false;
                 }
-                if (gamePlay.bid) {
+                if (!gamePlay.bid) {
                     int handValue = gamePlay.player.getFunds();
                     int bidValue = gamePlay.player.getBid();
                     if (gamePlay.thousandsButton.contains(e.getX(), e.getY()) && handValue >= bidValue + 1000) {
@@ -69,6 +68,44 @@ public class GameListener extends MouseAdapter {
                         gamePlay.player.setBid(gamePlay.player.getBid() + 1);
                     }
                 }
+                if (gamePlay.bidButton.contains(e.getX(), e.getY())) {
+                    gamePlay.bid = true;
+                    gamePlay.repaint();
+                }
+                if (gamePlay.yesButton.contains(e.getX(), e.getY())) {
+                    gamePlay.player.splitHand.add(gamePlay.player.hand.get(1));
+                    gamePlay.player.hand.remove(1);
+                    gamePlay.player.setSplitBid(gamePlay.player.getBid());
+                    gamePlay.player.split = true;
+                    gamePlay.splitGame = true;
+                    gamePlay.repaint();
+                }
+                if (gamePlay.noButton.contains(e.getX(), e.getY())) {
+                    gamePlay.player.split = false;
+                    gamePlay.repaint();
+                }
+
+            } else if (gamePlay.splitGame) {
+                if (gamePlay.holdSplitButton.contains(e.getX(), e.getY()) && gamePlay.player.splitHand.size() >= 2 && !gamePlay.player.newAce) {
+                    if (gamePlay.splitGame) {
+                        gamePlay.splitGame = false;
+                        //gamePlay.dealer.getHand().get(1).setFaceUp(true);
+                    }
+                }
+                if (gamePlay.hitSplitButton.contains(e.getX(), e.getY()) && !gamePlay.player.newAce) {
+                    gamePlay.splitBid = false;
+                    //Card temp = gamePlay.deck.draw();
+                    //if (temp.getRank().getRankLabel().equals("ace")) {
+                    //    gamePlay.player.newAce = true;
+                    //}
+                    // gamePlay.player.add(temp);
+                    gamePlay.player.splitAdd(gamePlay.deck.draw());
+                    if (gamePlay.deck.deck.isEmpty()) {
+                        gamePlay.deck.deck.clear();
+                        gamePlay.deck.fillDeck();
+                        gamePlay.deck.shuffle();
+                    }
+                }
             } else {
                 if (gamePlay.textButton.contains(e.getX(), e.getY())) {
                     if (gamePlay.player.getFunds() == 0) {
@@ -82,6 +119,10 @@ public class GameListener extends MouseAdapter {
                     gamePlay.dealer.add(d2Card1);
                     gamePlay.dealer.add(d2Card2);
                     gamePlay.game = true;
+                    gamePlay.bid = false;
+                    gamePlay.player.split = false;
+                    gamePlay.hitButton.x = 700 / 2 - 100 - 20;
+                    gamePlay.holdButton.x = 700 / 2 + 20;
                 }
             }
         }

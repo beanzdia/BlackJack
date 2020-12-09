@@ -9,29 +9,43 @@ public class Gameplay extends JPanel {
     private static final int HEIGHT = 600;
     public RectButton hitButton;
     public RectButton holdButton;
+    public RectButton hitSplitButton;
+    public RectButton holdSplitButton;
     public RectButton textButton;
     public RectButton rectOne;
     public RectButton rectEleven;
+    public RectButton yesButton;
+    public RectButton noButton;
     public OvalButton thousandsButton;
     public OvalButton hundredsButton;
     public OvalButton tensButton;
     public OvalButton onesButton;
     public OvalButton doubleButton;
+    public OvalButton bidButton;
     public Deck deck;
     public Player player;
     public Player dealer;
     private DeckGenerator genPlayerDeck;
+    private DeckGenerator genPlayerSplitDeck;
     private DeckGenerator genDealerDeck;
     public boolean game = true;
-    public boolean bid = true;
+    public boolean splitGame = false;
+    public boolean bid = false;
+    public boolean splitBid = false;
     TextAlignment textAlign = new TextAlignment();
+
+    Deck test = new Deck();
 
     public Gameplay() {
         hitButton = new RectButton(WIDTH / 2 - 100 - 20,400,100, 50, "Hit!");
         holdButton = new RectButton(this.WIDTH / 2 + 20,400,100, 50, "Hold!");
-        textButton = new RectButton(200,266 + 108 / 2 - 35 / 2,435, 35, " Click here to Continue");
+        hitSplitButton = new RectButton(this.WIDTH / 2 + 50,400,100, 50, "Hit!");
+        holdSplitButton = new RectButton(this.WIDTH / 2 + 50 + 100 + 40,400,100, 50, "Hold!");
+        textButton = new RectButton(200,266 + 108 / 2 - 35 / 2 - 50,435, 35, " Click here to Continue");
         rectOne = new RectButton(this.WIDTH - 200 - 10, this.HEIGHT / 2 - 150 + 100 - 50 -10,75,50, "1");
         rectEleven = new RectButton(this.WIDTH - 200 - 10 + 20 + 75, this.HEIGHT / 2 - 150 + 100 - 50 - 10,75,50, "11");
+        yesButton = new RectButton(this.WIDTH - 200 - 10, this.HEIGHT / 2 - 150 + 100 - 50 -10,75,50, "Yes");
+        noButton = new RectButton(this.WIDTH - 200 - 10 + 20 + 75, this.HEIGHT / 2 - 150 + 100 - 50 - 10,75,50, "No");
 
         // Creating bid buttons
         thousandsButton = new OvalButton(this.WIDTH / 2 + 75 + 30,475,75,75, "$1000");
@@ -39,48 +53,22 @@ public class Gameplay extends JPanel {
         tensButton = new OvalButton(this.WIDTH / 2 - 75 - 10,475,75,75, "$10");
         onesButton = new OvalButton(this.WIDTH / 2 - 75*2 - 30,475,75,75,"$1");
         doubleButton = new OvalButton(this.WIDTH / 2 + 75*2 + 50 + 10,475,50,50, "double");
+        bidButton = new OvalButton(this.WIDTH / 2 - 75*2 - 50 - 10,475,50,50, "bid");
 
         // Creating a deck
         deck = new Deck();
         deck.fillDeck();
         deck.shuffle();
 
-        // Create player hand
+        // Creating a test deck
+        test.add(new Card(Card.Suit.SPADES, Card.Rank.FOUR));
+        test.add(new Card(Card.Suit.DIAMONDS, Card.Rank.FIVE));
+        test.add(new Card(Card.Suit.CLUBS, Card.Rank.SEVEN));
+        test.add(new Card(Card.Suit.HEARTS, Card.Rank.SIX));
+
+        // Create player and dealer hand
         player = new Player("You");
-        //Card p1 = new Card(Card.Suit.CLUBS, Card.Rank.TEN);
-        //Card p2 = new Card(Card.Suit.CLUBS, Card.Rank.TWO);
-        //player.add(p1);
-        //player.add(p2);
-
-        // Create dealer hand
         dealer = new Player("Dealer");
-        /*
-        Card dealerFirst = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
-        Card dealerSecond = new Card(Card.Suit.SPADES, Card.Rank.ACE);
-        */
-        /*
-        Card dealerFirst = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
-        Card dealerSecond = new Card(Card.Suit.DIAMONDS, Card.Rank.TWO);
-        */
-        /*
-        Card dealerFirst = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
-        Card dealerSecond = new Card(Card.Suit.DIAMONDS, Card.Rank.KING);
-        */
-        /*
-        Card dealerFirst = new Card(Card.Suit.CLUBS, Card.Rank.QUEEN);
-        Card dealerSecond = new Card(Card.Suit.DIAMONDS, Card.Rank.ACE);
-        */
-
-        //Card dealerFirst = new Card(Card.Suit.SPADES, Card.Rank.FOUR);
-        //Card dealerSecond = new Card(Card.Suit.CLUBS, Card.Rank.NINE);
-        //Card dealerThird = new Card(Card.Suit.CLUBS, Card.Rank.EIGHT);
-        //Card dealerFourth = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
-
-
-        //dealer.add(dealerFirst);
-        //dealer.add(dealerSecond);
-        //dealer.add(dealerThird);
-        //dealer.add(dealerFourth);
 
         dealer.add(deck.draw());
         Card dealerCardTwo = deck.draw();
@@ -94,6 +82,9 @@ public class Gameplay extends JPanel {
         if (player.handValue() >= 21) {
             game = false;
         }
+        if (player.splitHandValue() >= 21) {
+            splitGame = false;
+        }
 
         // draw the background
         g.setColor(Color.green);
@@ -105,16 +96,32 @@ public class Gameplay extends JPanel {
 
         // draw the player's hand
         genPlayerDeck = new DeckGenerator(player);
-        genPlayerDeck.draw((Graphics2D) g);
-
+        if (!player.split) {
+            genPlayerDeck.draw((Graphics2D) g);
+        } else {
+            genPlayerDeck.splitDraw((Graphics2D) g);
+        }
         // draw the dealer's hand
         genDealerDeck = new DeckGenerator(dealer);
-        genDealerDeck.dealerDraw((Graphics2D) g, game);
+        genDealerDeck.dealerDraw((Graphics2D) g, game, splitGame);
+
+        if (player.split) {
+            genPlayerSplitDeck = new DeckGenerator(player);
+        }
 
         // draws the background which includes the buttons and poker chips
         Font fontA = new Font("serif", Font.BOLD, 24);
-        hitButton.draw(g, Color.lightGray, fontA);
-        holdButton.draw(g, Color.lightGray, fontA);
+        if (player.split) {
+            hitButton.x = this.WIDTH / 2 - 50 - 100 - 40 - 100;
+            holdButton.x = this.WIDTH / 2 - 50 - 100;
+            hitSplitButton.draw(g, Color.lightGray, fontA);
+            holdSplitButton.draw(g, Color.lightGray, fontA);
+        }
+
+
+            hitButton.draw(g, Color.lightGray, fontA);
+            holdButton.draw(g, Color.lightGray, fontA);
+
 
         Font font = new Font("serif", Font.PLAIN, 20);
         thousandsButton.draw(g, Color.orange, font);
@@ -122,21 +129,26 @@ public class Gameplay extends JPanel {
         tensButton.draw(g, Color.orange, font);
         onesButton.draw(g, Color.orange, font);
         doubleButton.draw(g, Color.red, new Font("serif", Font.PLAIN, 16));
+        bidButton.draw(g, Color.red, new Font("serif", Font.PLAIN, 16));
 
         if (player.newAce && player.handValue() < 21) {
             aceDraw((Graphics2D) g);
         }
 
-        if ((player.getBid() == 0)) {
+        if(player.hand.size() == 2 && player.hand.get(0).getRank().getRankValue() == player.hand.get(1).getRank().getRankValue() && !player.split) {
+            splitDraw((Graphics2D) g);
+        }
+
+        if (!bid) {
             noBidDraw((Graphics2D) g);
         }
 
-        if (!game) {
+        if (!game && !splitGame) {
             dealer.getHand().get(1).setFaceUp(true);
             dealerHit();
-            repaint();
+            gameSplitResult();
             gameResult((Graphics2D) g);
-            bid = true;
+            repaint();
         }
         g.dispose();
     }
@@ -148,16 +160,13 @@ public class Gameplay extends JPanel {
         g.setColor(Color.black);
         String result = gameHelperResult();
         textAlign.drawCenteredString(g, result + textButton.getText(), textButton, new Font("serif", Font.BOLD, 28));
-        player.updateFunds(result);
         if (player.getFunds() == 0) {
             g.setColor(Color.white);
             g.fillRect(200,266 + 108 / 2 - 35 / 2 + 35,435, 35);
             g.setColor(Color.black);
             textAlign.drawCenteredString(g,"Ran out of Funds!", new Rectangle2D.Double(200,266 + 108 / 2 - 35 / 2 + 35,435, 35),
                     new Font("serif", Font.BOLD, 28));
-            // player.setFunds(2500);
         }
-        player.setBid(0);
     }
 
     // Returns a string for all of the win/lose/push scenarios
@@ -173,6 +182,24 @@ public class Gameplay extends JPanel {
         } else {
             return "Player loses hand";
         }
+    }
+
+    public void gameSplitResult() {
+        int dealerHand = dealer.handValue();
+        int hand = player.handValue();
+        int splithand = player.splitHandValue();
+        if ((dealerHand > hand || hand > 21) && dealerHand <= 21) {
+            player.setFunds(player.getFunds() - player.getBid());
+        } else if ((dealerHand < hand || dealerHand > 21) && hand <= 21) {
+            player.setFunds(player.getFunds() + player.getBid());
+        }
+        if ((dealerHand > splithand || splithand > 21) && dealerHand <= 21) {
+            player.setFunds(player.getFunds() - player.getSplitBid());
+        } else if ((dealerHand < splithand || dealerHand > 21) && splithand <= 21) {
+            player.setFunds(player.getFunds() + player.getSplitBid());
+        }
+        player.setBid(0);
+        player.setSplitBid(0);
     }
 
     // Logic for dealer hitting on their hand
@@ -205,5 +232,15 @@ public class Gameplay extends JPanel {
         g.fillRect(200,266 + 108 / 2 - 35 / 2,435, 35);
         g.setColor(Color.black);
         textAlign.drawCenteredString(g, "Please enter a bid:", new Rectangle2D.Double(200,266 + 108 / 2 - 35 / 2,435, 35), new Font("serif", Font.BOLD, 28));
+    }
+
+    public void splitDraw(Graphics2D g) {
+        g.setColor(Color.gray);
+        Rectangle2D temp = new Rectangle2D.Double(this.WIDTH - 200 - 25, this.HEIGHT / 2 - 150,200,125);
+        g.fill(temp);
+        g.setColor(Color.white);
+        textAlign.drawCenteredStringTop(g, "Split Hand? ", temp, new Font("serif", Font.BOLD, 22));
+        yesButton.draw(g,Color.yellow, new Font("serif", Font.BOLD, 28));
+        noButton.draw(g,Color.yellow, new Font("serif", Font.BOLD, 28));
     }
 }
