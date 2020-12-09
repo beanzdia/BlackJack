@@ -1,5 +1,7 @@
 package BlackJack;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -11,6 +13,22 @@ public class GameListener extends MouseAdapter {
     }
 
     public void mouseClicked(MouseEvent e) {
+
+        //new Random Card
+        ArrayList<Card> d = new ArrayList<Card>();
+        for (Card.Suit mySuit : Card.Suit.values()) {
+            for (Card.Rank myVal : Card.Rank.values()) {
+                if (!myVal.equals(Card.Rank.ACE11)) {
+                    d.add(new Card(mySuit, myVal));
+                }
+            }
+        }
+        Random r = new Random();
+        int n = r.nextInt(d.size());
+        Card drawCard = d.get(n);
+        //
+
+
         if ((e.getButton() == 1) && gamePlay.holdButton.contains(e.getX(), e.getY()) && gamePlay.game && gamePlay.player.hand.size() >= 2 && !gamePlay.player.newAce) {
             gamePlay.game = false;
             gamePlay.dealer.getHand().get(1).setFaceUp(true);
@@ -69,6 +87,19 @@ public class GameListener extends MouseAdapter {
             Card ace = gamePlay.player.hand.get(gamePlay.player.hand.size() - 1);
             gamePlay.player.hand.set(gamePlay.player.hand.size() - 1, new Card(ace.getSuit(), Card.Rank.ACE11));
             gamePlay.player.newAce = false;
+            gamePlay.repaint();
+        }
+        if ((e.getButton() == 1) && gamePlay.yesButton.contains(e.getX(), e.getY())) {
+            gamePlay.player.hand.set(gamePlay.player.hand.size() - 1, drawCard);
+            //gamePlay.player.splitHand.set(gamePlay.player.hand.size() - 1, drawCard);
+            gamePlay.repaint();
+        }
+        if ((e.getButton() == 1) && gamePlay.noButton.contains(e.getX(), e.getY())) {
+            Card noSplit1 = gamePlay.player.hand.get(gamePlay.player.hand.size() - 2);
+            Card noSplit2 = gamePlay.player.hand.get(gamePlay.player.hand.size() - 1);
+
+            gamePlay.player.hand.set(gamePlay.player.hand.size() -1, new Card(noSplit1.getSuit(), Card.Rank.SEVEN));
+            gamePlay.player.hand.set(gamePlay.player.hand.size() -2, new Card(noSplit2.getSuit(), Card.Rank.SEVEN));
             gamePlay.repaint();
         }
     }

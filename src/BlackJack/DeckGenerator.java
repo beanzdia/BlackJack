@@ -8,6 +8,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class DeckGenerator extends Component {
+    private boolean isSplit;
+    private int value;
+
     public int cardWidth = 69;
     public int cardHeight = 108;
     public int hSpacing = 10;
@@ -16,20 +19,17 @@ public class DeckGenerator extends Component {
     public ArrayList<Card> deck;
     public ArrayList<Card> splitDeck;
     public Player player;
-    public Rectangle2D yesButton;
-    public Rectangle2D noButton;
-    public Rectangle2D rectOne;
-    public Rectangle2D rectEleven;
     TextAlignment textAlign;
-    private boolean splitHand;
+    public ArrayList<Card> splitHand;
+    public boolean finishSplit;
 
     public DeckGenerator(Player player) {
         TextAlignment textAlign = new TextAlignment();
-        this.splitHand = splitHand;
+        splitHand = new ArrayList<Card>();
+        this.finishSplit = false;
+        this.isSplit = false;
         this.deck = player.getHand();
         this.player = player;
-        yesButton = new Rectangle2D.Double(125, 150,75,50);
-        noButton = new Rectangle2D.Double(225, 150,75,50);
     }
 
     // Draw the players hand when the player is a player
@@ -40,11 +40,33 @@ public class DeckGenerator extends Component {
         g.drawString("Funds: $" + player.getFunds(), 20,266 + 75);
         g.drawString("Bid: $" + player.getBid(), 20, 266 + 100);
         g.setColor(Color.white);
+//        if (isSplittable()) {
+//            for (int i = 0; i < deck.size(); i++) {
+//                splitHand.set(deck.size() - 1, drawCard);
+//                ImageIcon temp = splitHand.get(i).drawCardImage();
+//                temp.paintIcon(this, g, 400 + (cardWidth / 2) * i, 266);
+//            }
+//        }
         for (int i = 0; i < deck.size(); i++) {
             ImageIcon temp = deck.get(i).drawCardImage();
             temp.paintIcon(this,g, 200 + (cardWidth / 2) * i, 266);
         }
     }
+
+//    public boolean isSplittable() {
+//        return deck.size() == 2
+//                && deck.get(0).getRank().getRankValue() == deck.get(1).getRank().getRankValue()
+//                && !isSplit;
+//    }
+//
+//    public ArrayList<Card> split() {
+//            splitHand = new ArrayList<Card>();
+//            splitHand.add(deck.remove(1));
+//            value = deck.get(0).getRank().getRankValue();
+//            isSplit = true;
+//            finishSplit = true;
+//            return splitHand;
+//    }
 
     // Draw the dealers hand when the player is the dealer
     public void dealerDraw(Graphics2D g, boolean game) {
@@ -62,18 +84,5 @@ public class DeckGenerator extends Component {
         }
     }
 
-    // potential splitdraw method
-    public void splitDraw(Graphics2D g) {
-        g.setColor(Color.gray);
-        g.fillRect(100, 100,200,200);
-        g.setColor(Color.black);
-        g.drawString("Click whether you want to split your hand: ",100,100);
-        g.setColor(Color.blue);
-        g.fill(yesButton);
-        g.fill(noButton);
-        g.setColor(Color.black);
-        g.drawString("Yes",125,150);
-        g.drawString("No",225,150);
-    }
 
 }

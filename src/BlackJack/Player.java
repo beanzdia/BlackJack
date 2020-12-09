@@ -10,6 +10,7 @@ public class Player {
     public ArrayList<Card> hand;
     public ArrayList<Card> splitHand;
     public boolean newAce = false;
+    public boolean split = false;
 
     public Player(String pid) {
         this.pid = pid;
@@ -30,6 +31,7 @@ public class Player {
         }
         return sum;
     }
+
 
     public Card containsNewAce() {
         for (Card card : hand) {
@@ -58,6 +60,8 @@ public class Player {
         result += handValue();
         return result;
     }
+
+
 
     public void clear() {
         hand.clear();
@@ -90,6 +94,7 @@ public class Player {
     public static void main(String[] args) {
         Deck d = new Deck(); // make a new deck
         Player p1 = new Player("Alejandro");
+
         d.fillDeck(); // fill the deck
         d.shuffle(); // shuffle the deck
         // Card temp = d.draw();
