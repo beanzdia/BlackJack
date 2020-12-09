@@ -42,21 +42,12 @@ public class GameListener extends MouseAdapter {
                     }
                 }
                 if (gamePlay.rectOne.contains(e.getX(), e.getY())) {
-                    //Card ace = gamePlay.player.hand.get(gamePlay.player.hand.size() - 1);
-                    //Card.Rank rank = Card.Rank.ACE;
-                    //rank.setRankValue(1);
-                    //gamePlay.player.hand.set(gamePlay.player.hand.size() - 1, new Card(ace.getSuit(), rank));
-                    //gamePlay.player.hand.get(gamePlay.player.hand.size() - 1).getRank().rankValue = 1;
                     ArrayList<Card> player = gamePlay.player.hand;
                     Card aceCard = player.get(player.size() - 1);
                     gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE));
                     gamePlay.player.newAce = false;
                 }
                 if (gamePlay.rectEleven.contains(e.getX(), e.getY())) {
-                    //Card ace = gamePlay.player.hand.get(gamePlay.player.hand.size() - 1);
-                    //Card.Rank rank = Card.Rank.ACE;
-                    //rank.setRankValue(11);
-                    //gamePlay.player.hand.set(gamePlay.player.hand.size() - 1, new Card(ace.getSuit(), rank));
                     ArrayList<Card> player = gamePlay.player.hand;
                     Card aceCard = player.get(player.size() - 1);
                     gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE11));

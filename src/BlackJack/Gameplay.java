@@ -47,10 +47,10 @@ public class Gameplay extends JPanel {
 
         // Create player hand
         player = new Player("You");
-        Card p1 = new Card(Card.Suit.CLUBS, Card.Rank.TEN);
-        Card p2 = new Card(Card.Suit.CLUBS, Card.Rank.TWO);
-        player.add(p1);
-        player.add(p2);
+        //Card p1 = new Card(Card.Suit.CLUBS, Card.Rank.TEN);
+        //Card p2 = new Card(Card.Suit.CLUBS, Card.Rank.TWO);
+        //player.add(p1);
+        //player.add(p2);
 
         // Create dealer hand
         dealer = new Player("Dealer");
