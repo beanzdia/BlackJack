@@ -19,12 +19,12 @@ public class GameListener extends MouseAdapter {
                 }
                 if (gamePlay.hitButton.contains(e.getX(), e.getY()) && !gamePlay.player.newAce && gamePlay.bid) {
                     if (gamePlay.bid) {
-                        //Card temp = gamePlay.deck.draw();
-                        //if (temp.getRank().getRankLabel().equals("ace")) {
-                        //    gamePlay.player.newAce = true;
-                        //}
-                        //gamePlay.player.add(temp);
-                        gamePlay.player.add(gamePlay.test.draw());
+                        Card temp = gamePlay.deck.draw();
+                        if (temp.getRank().getRankLabel().equals("ace")) {
+                            gamePlay.player.newAce = true;
+                        }
+                        gamePlay.player.add(temp);
+                        // gamePlay.player.add(gamePlay.test.draw());
                         if (gamePlay.deck.deck.isEmpty()) {
                             gamePlay.deck.deck.clear();
                             gamePlay.deck.fillDeck();
@@ -40,18 +40,7 @@ public class GameListener extends MouseAdapter {
                         }
                     }
                 }
-                if (gamePlay.rectOne.contains(e.getX(), e.getY()) && gamePlay.player.newAce) {
-                    ArrayList<Card> player = gamePlay.player.hand;
-                    Card aceCard = player.get(player.size() - 1);
-                    gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE));
-                    gamePlay.player.newAce = false;
-                }
-                if (gamePlay.rectEleven.contains(e.getX(), e.getY()) && gamePlay.player.newAce) {
-                    ArrayList<Card> player = gamePlay.player.hand;
-                    Card aceCard = player.get(player.size() - 1);
-                    gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE11));
-                    gamePlay.player.newAce = false;
-                }
+
                 if (!gamePlay.bid) {
                     int handValue = gamePlay.player.getFunds();
                     int bidValue = gamePlay.player.getBid();
@@ -72,7 +61,17 @@ public class GameListener extends MouseAdapter {
                     gamePlay.bid = true;
                     gamePlay.repaint();
                 }
-                if (gamePlay.yesButton.contains(e.getX(), e.getY())) {
+                if (gamePlay.rectOne.contains(e.getX(), e.getY()) && gamePlay.player.newAce) {
+                    ArrayList<Card> player = gamePlay.player.hand;
+                    Card aceCard = player.get(player.size() - 1);
+                    gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE));
+                    gamePlay.player.newAce = false;
+                }else if (gamePlay.rectEleven.contains(e.getX(), e.getY()) && gamePlay.player.newAce) {
+                    ArrayList<Card> player = gamePlay.player.hand;
+                    Card aceCard = player.get(player.size() - 1);
+                    gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE11));
+                    gamePlay.player.newAce = false;
+                } else if (gamePlay.yesButton.contains(e.getX(), e.getY())) {
                     gamePlay.player.splitHand.add(gamePlay.player.hand.get(1));
                     gamePlay.player.hand.remove(1);
                     gamePlay.player.setSplitBid(gamePlay.player.getBid());
@@ -80,11 +79,14 @@ public class GameListener extends MouseAdapter {
                     gamePlay.splitGame = true;
                     gamePlay.repaint();
                 }
-                if (gamePlay.noButton.contains(e.getX(), e.getY())) {
+                /*
+                else if (gamePlay.noButton.contains(e.getX(), e.getY())) {
                     gamePlay.player.split = false;
                     gamePlay.splitGame = false;
                     gamePlay.repaint();
                 }
+
+                 */
 
             } else if (gamePlay.splitGame) {
                 if (gamePlay.holdSplitButton.contains(e.getX(), e.getY()) && gamePlay.player.splitHand.size() >= 2 && !gamePlay.player.newAce) {

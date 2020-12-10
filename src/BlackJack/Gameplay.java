@@ -44,8 +44,8 @@ public class Gameplay extends JPanel {
         textButton = new RectButton(200,266 + 108 / 2 - 35 / 2 - 50,435, 35, " Click here to Continue");
         rectOne = new RectButton(this.WIDTH - 200 - 10, this.HEIGHT / 2 - 150 + 100 - 50 -10,75,50, "1");
         rectEleven = new RectButton(this.WIDTH - 200 - 10 + 20 + 75, this.HEIGHT / 2 - 150 + 100 - 50 - 10,75,50, "11");
-        yesButton = new RectButton(this.WIDTH - 200 - 10, this.HEIGHT / 2 - 150 + 100 - 50 -10,75,50, "Yes");
-        noButton = new RectButton(this.WIDTH - 200 - 10 + 20 + 75, this.HEIGHT / 2 - 150 + 100 - 50 - 10,75,50, "No");
+        yesButton = new RectButton(this.WIDTH - 200 - 25 + 100 - 75/2, this.HEIGHT / 2 - 150 + 100 - 50 -10,75,50, "Yes");
+        // noButton = new RectButton(this.WIDTH - 200 - 10 + 20 + 75, this.HEIGHT / 2 - 150 + 100 - 50 - 10,75,50, "No");
 
         // Creating bid buttons
         thousandsButton = new OvalButton(this.WIDTH / 2 + 75 + 30,475,75,75, "$1000");
@@ -130,7 +130,7 @@ public class Gameplay extends JPanel {
             aceDraw((Graphics2D) g);
         }
 
-        if(player.hand.size() == 2 && player.hand.get(0).getRank().getRankValue() == player.hand.get(1).getRank().getRankValue() && !player.split
+        if(player.hand.size() == 2 && player.hand.get(0).getRank().getRankLabel().equals(player.hand.get(1).getRank().getRankLabel())
             && player.getBid() * 2 <= player.getFunds()) {
             splitDraw((Graphics2D) g);
         }
@@ -178,10 +178,8 @@ public class Gameplay extends JPanel {
            return "Dealer wins!";
         } else if ((dealerHand < p1Hand || dealerHand > 21) && p1Hand <= 21) {
             return "Player wins!";
-        } else if ((dealerHand == p1Hand) && dealerHand <= 21) {
-            return "Push!";
         } else {
-            return "Player loses hand";
+            return "Push!";
         }
     }
 
@@ -242,6 +240,6 @@ public class Gameplay extends JPanel {
         g.setColor(Color.white);
         textAlign.drawCenteredStringTop(g, "Split Hand? ", temp, new Font("serif", Font.BOLD, 22));
         yesButton.draw(g,Color.yellow, new Font("serif", Font.BOLD, 28));
-        noButton.draw(g,Color.yellow, new Font("serif", Font.BOLD, 28));
+        //noButton.draw(g,Color.yellow, new Font("serif", Font.BOLD, 28));
     }
 }
