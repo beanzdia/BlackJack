@@ -3,7 +3,6 @@ package BlackJack;
 import java.util.ArrayList;
 
 public class Player {
-
     private String pid;
     private int funds;
     private int splitFunds;
@@ -25,6 +24,7 @@ public class Player {
     public void add(Card card) {
         hand.add(card);
     }
+
     public void splitAdd(Card card) {
         splitHand.add(card);
     }
@@ -135,17 +135,4 @@ public class Player {
     public void setSplitBid(int bid) {
         this.splitBid = bid;
     }
-
-    public static void main(String[] args) {
-        Deck d = new Deck(); // make a new deck
-        Player p1 = new Player("Alejandro");
-        d.fillDeck(); // fill the deck
-        d.shuffle(); // shuffle the deck
-        // Card temp = d.draw();
-        p1.add(d.draw());
-        p1.add(d.draw());
-        p1.add(d.draw());
-        System.out.println(p1.toString());
-    }
-
 }

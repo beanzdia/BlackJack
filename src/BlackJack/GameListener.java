@@ -19,12 +19,12 @@ public class GameListener extends MouseAdapter {
                 }
                 if (gamePlay.hitButton.contains(e.getX(), e.getY()) && !gamePlay.player.newAce && gamePlay.bid) {
                     if (gamePlay.bid) {
-                        Card temp = gamePlay.deck.draw();
-                        if (temp.getRank().getRankLabel().equals("ace")) {
-                            gamePlay.player.newAce = true;
-                        }
-                        gamePlay.player.add(temp);
-                        //gamePlay.player.add(gamePlay.test.draw());
+                        //Card temp = gamePlay.deck.draw();
+                        //if (temp.getRank().getRankLabel().equals("ace")) {
+                        //    gamePlay.player.newAce = true;
+                        //}
+                        //gamePlay.player.add(temp);
+                        gamePlay.player.add(gamePlay.test.draw());
                         if (gamePlay.deck.deck.isEmpty()) {
                             gamePlay.deck.deck.clear();
                             gamePlay.deck.fillDeck();
@@ -82,6 +82,7 @@ public class GameListener extends MouseAdapter {
                 }
                 if (gamePlay.noButton.contains(e.getX(), e.getY())) {
                     gamePlay.player.split = false;
+                    gamePlay.splitGame = false;
                     gamePlay.repaint();
                 }
 
@@ -104,6 +105,14 @@ public class GameListener extends MouseAdapter {
                         gamePlay.deck.deck.clear();
                         gamePlay.deck.fillDeck();
                         gamePlay.deck.shuffle();
+                    }
+                }
+                if (gamePlay.doubleButton.contains(e.getX(), e.getY())) {
+                    if (gamePlay.player.getSplitHand().size() == 2) {
+                        int bidValue = gamePlay.player.getSplitBid();
+                        if (bidValue * 2 <= gamePlay.player.getFunds()) {
+                            gamePlay.player.setSplitBid(bidValue * 2);
+                        }
                     }
                 }
             } else {

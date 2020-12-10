@@ -53,7 +53,7 @@ public class Gameplay extends JPanel {
         tensButton = new OvalButton(this.WIDTH / 2 - 75 - 10,475,75,75, "$10");
         onesButton = new OvalButton(this.WIDTH / 2 - 75*2 - 30,475,75,75,"$1");
         doubleButton = new OvalButton(this.WIDTH / 2 + 75*2 + 50 + 10,475,50,50, "double");
-        bidButton = new OvalButton(this.WIDTH / 2 - 75*2 - 50 - 10,475,50,50, "bid");
+        bidButton = new OvalButton(this.WIDTH / 2 - 75*2 - 50*2 - 10,475,50,50, "bid");
 
         // Creating a deck
         deck = new Deck();
@@ -62,20 +62,17 @@ public class Gameplay extends JPanel {
 
         // Creating a test deck
         test.add(new Card(Card.Suit.SPADES, Card.Rank.FOUR));
-        test.add(new Card(Card.Suit.DIAMONDS, Card.Rank.FIVE));
-        test.add(new Card(Card.Suit.CLUBS, Card.Rank.SEVEN));
-        test.add(new Card(Card.Suit.HEARTS, Card.Rank.SIX));
+        test.add(new Card(Card.Suit.DIAMONDS, Card.Rank.FOUR));
+        test.add(new Card(Card.Suit.CLUBS, Card.Rank.FOUR));
+        test.add(new Card(Card.Suit.HEARTS, Card.Rank.FOUR));
 
         // Create player and dealer hand
         player = new Player("You");
         dealer = new Player("Dealer");
-
         dealer.add(deck.draw());
         Card dealerCardTwo = deck.draw();
         dealerCardTwo.setFaceUp(false);
         dealer.add(dealerCardTwo);
-
-
     }
 
     public void paint(Graphics g) {
@@ -110,32 +107,31 @@ public class Gameplay extends JPanel {
         }
 
         // draws the background which includes the buttons and poker chips
-        Font fontA = new Font("serif", Font.BOLD, 24);
+        Font fontTwentyFour = new Font("serif", Font.BOLD, 24);
         if (player.split) {
             hitButton.x = this.WIDTH / 2 - 50 - 100 - 40 - 100;
             holdButton.x = this.WIDTH / 2 - 50 - 100;
-            hitSplitButton.draw(g, Color.lightGray, fontA);
-            holdSplitButton.draw(g, Color.lightGray, fontA);
+            hitSplitButton.draw(g, Color.lightGray, fontTwentyFour);
+            holdSplitButton.draw(g, Color.lightGray, fontTwentyFour);
         }
+        hitButton.draw(g, Color.lightGray, fontTwentyFour);
+        holdButton.draw(g, Color.lightGray, fontTwentyFour);
 
-
-            hitButton.draw(g, Color.lightGray, fontA);
-            holdButton.draw(g, Color.lightGray, fontA);
-
-
-        Font font = new Font("serif", Font.PLAIN, 20);
-        thousandsButton.draw(g, Color.orange, font);
-        hundredsButton.draw(g, Color.orange, font);
-        tensButton.draw(g, Color.orange, font);
-        onesButton.draw(g, Color.orange, font);
-        doubleButton.draw(g, Color.red, new Font("serif", Font.PLAIN, 16));
-        bidButton.draw(g, Color.red, new Font("serif", Font.PLAIN, 16));
+        Font fontTwenty = new Font("serif", Font.PLAIN, 20);
+        Font fontSixteen = new Font("serif", Font.PLAIN, 16);
+        thousandsButton.draw(g, Color.orange, fontTwentyFour);
+        hundredsButton.draw(g, Color.orange, fontTwentyFour);
+        tensButton.draw(g, Color.orange, fontTwentyFour);
+        onesButton.draw(g, Color.orange, fontTwentyFour);
+        doubleButton.draw(g, Color.red, fontSixteen);
+        bidButton.draw(g, Color.red, fontSixteen);
 
         if (player.newAce && player.handValue() < 21) {
             aceDraw((Graphics2D) g);
         }
 
-        if(player.hand.size() == 2 && player.hand.get(0).getRank().getRankValue() == player.hand.get(1).getRank().getRankValue() && !player.split) {
+        if(player.hand.size() == 2 && player.hand.get(0).getRank().getRankValue() == player.hand.get(1).getRank().getRankValue() && !player.split
+            && player.getBid() * 2 <= player.getFunds()) {
             splitDraw((Graphics2D) g);
         }
 
@@ -155,17 +151,22 @@ public class Gameplay extends JPanel {
 
     // Prints the winner, if the dealer drew any additional cards
     public void gameResult(Graphics2D g) {
+        Font font = new Font("serif", Font.BOLD, 28);
         g.setColor(Color.white);
         g.fill(textButton);
         g.setColor(Color.black);
         String result = gameHelperResult();
-        textAlign.drawCenteredString(g, result + textButton.getText(), textButton, new Font("serif", Font.BOLD, 28));
+        if (player.split) {
+            textAlign.drawCenteredString(g, textButton.getText(), textButton, font);
+        } else {
+            textAlign.drawCenteredString(g, result + textButton.getText(), textButton, font);
+        }
         if (player.getFunds() == 0) {
             g.setColor(Color.white);
             g.fillRect(200,266 + 108 / 2 - 35 / 2 + 35,435, 35);
             g.setColor(Color.black);
             textAlign.drawCenteredString(g,"Ran out of Funds!", new Rectangle2D.Double(200,266 + 108 / 2 - 35 / 2 + 35,435, 35),
-                    new Font("serif", Font.BOLD, 28));
+                    font);
         }
     }
 
