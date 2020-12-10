@@ -3,14 +3,17 @@ package BlackJack;
 import java.util.ArrayList;
 import java.util.Random;
 
+// This program creates a deck, represented by 52 card- one of each rank and suit.
 public class Deck {
 
     public ArrayList<Card> deck;
 
+    // Creates a deck of cards
     public Deck() {
         deck = new ArrayList<Card>();
     }
 
+    // Fills a deck with cards, one of each rank and suit
     public void fillDeck() {
         for (Card.Suit mySuit : Card.Suit.values()) {
             for (Card.Rank myVal : Card.Rank.values()) {
@@ -21,6 +24,7 @@ public class Deck {
         }
     }
 
+    // Shuffles the deck so that the cards are in random order
     public void shuffle() {
         Random random = new Random();
         for (int i = 0; i < deck.size(); i++) {
@@ -31,6 +35,7 @@ public class Deck {
         }
     }
 
+    // Returns a random card from the deck
     public Card draw() {
         if (deck.isEmpty()) {
             fillDeck();
@@ -46,14 +51,19 @@ public class Deck {
         return drawCard;
     }
 
+    // pre: takes in a card
+    // post: removes the input card from the deck
     public void remove(Card card) {
         deck.remove(card);
     }
 
+    // pre: takes in a card
+    // post: adds the input card to the deck
     public void add(Card card) {
         deck.add(card);
     }
 
+    // Returns a string of the cards (their suits and ranks) in the deck
     public String toString() {
         String result = "";
         for (Card card : deck) {
@@ -61,7 +71,6 @@ public class Deck {
         }
         return result;
     }
-
 
     public static void main(String[] args) {
         Deck d = new Deck();
