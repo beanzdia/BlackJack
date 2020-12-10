@@ -15,7 +15,7 @@ From there, our repository should be stored on your computer! You can then open 
 Your folder tree should look something like:
 > (ex.Documents) > BlackJack > src > BlackJack > ...
 
-![alt](C:/Users/sakur/Downloads/folderTree.png)
+![](folderTree.png)
 
 Now, if you open **Main.java** in your dev environment, compile, and run it, a separate window with a green background and the title “BlackJack” across the top should appear. 
 
