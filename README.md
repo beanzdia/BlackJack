@@ -46,7 +46,7 @@ Once that window is up and running, you are now able to play a game of BlackJack
 - The game will continue playing until the user loses all of their funds to the dealer. The user can also exit out of the game by clicking on the "X" exit button on the window toolbar. The window is also not resizable.
 
 #### Edge cases:
-- When a player gets an Ace card, the player can choose a value of 1 or 11 for that card from a pop-up menu; the value is up to the discretion of the player.
+- When a player gets an Ace card, the player can choose a value of 1 or 11 for that card from a pop-up menu; the value is up to the discretion of the player. The user just has to click on either the 1 or 11 button in the pop-up graphic.
 - When a player acquires a double (e.g. A pair of Sevens), they can choose whether to split that hand or not. If accepted by clicking yes, the player will be able to split the pair into two hands, meaning they have two hands to play with simultaneously. However, they must place a bet equivalent to their first hand in order to split. Make sure to finish your turn on the left hand such as holding or busting after clicking on the hit button before hitting on the second hand. It has to be sequential in order to handle the split hand. There are multiple outcomes such as winning/losing both hands and also pushing on one and winning/losing on the other hand.
 
 Here is a link to our BlackJack Demo:
