@@ -28,7 +28,7 @@ public class Card {
         ACE(1, "ace"), ACE11(11,"ace");
 
         public int rankValue;
-        public final String rankLabel;
+        public String rankLabel;
 
         Rank(int rankValue, String rankLabel) {
             this.rankValue = rankValue;

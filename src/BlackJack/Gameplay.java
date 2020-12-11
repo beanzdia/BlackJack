@@ -53,7 +53,6 @@ public class Gameplay extends JPanel {
 
     public Deck test = new Deck();
 
-    // pre:
     // post: Gameplay constructs the game buttons, card deck, dealer, and player.
     public Gameplay() {
         // Creating the buttons for hitting and holding with and without splitting a hand
@@ -88,13 +87,6 @@ public class Gameplay extends JPanel {
         // Creating the player and dealer
         player = new Player("You");
         dealer = new Player("Dealer");
-
-        test.add(new Card(Card.Suit.SPADES, Card.Rank.SEVEN));
-        test.add(new Card(Card.Suit.DIAMONDS, Card.Rank.SEVEN));
-        test.add(new Card(Card.Suit.SPADES, Card.Rank.ACE));
-        test.add(new Card(Card.Suit.DIAMONDS, Card.Rank.ACE));
-        test.add(new Card(Card.Suit.HEARTS, Card.Rank.ACE));
-        test.add(new Card(Card.Suit.CLUBS, Card.Rank.ACE));
 
         // Adding two cards to the dealer with the second card face down
         dealer.add(deck.draw());
