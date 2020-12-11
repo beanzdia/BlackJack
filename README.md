@@ -6,7 +6,7 @@ Users should also have their preferred development environment installed; our te
 
 Once the correct version of JDK is installed or updated, users can then clone the Github repository to their computer, meaning they can make a copy of the online files and store them locally. To accomplish this, users must also have Git Bash installed. 
 
-To clone a repository, open Git Bash, navigate to the folder you want to store our repository in(i.e. Documents), and type: 
+To clone a repository, open Git Bash, navigate to the folder you want to store our repository in (i.e. Documents), and type: 
 
 `git clone https://github.com/beanzdia/BlackJack.git`
     
