@@ -1,3 +1,5 @@
+// The TextAlignment class aligns the text in the center of rectangle or oval shapes.
+
 package BlackJack;
 
 import java.awt.*;
@@ -6,19 +8,9 @@ import java.awt.geom.Rectangle2D;
 
 public final class TextAlignment {
 
-    public void drawCenteredString(Font font, int w, int h, String s, Graphics g) {
-        // Get the FontMetrics
-        FontMetrics metrics = g.getFontMetrics(font);
-        // Determine the X coordinate for the text
-        int x = 0 + (w - metrics.stringWidth(s)) / 2;
-        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-        int y = 75;
-        // Set the font
-        g.setFont(font);
-        // Draw the String
-        g.drawString(s, x, y);
-    }
-
+    // post: Draws a message centered in the middle of a given rectangle shape from a given rectangle
+    //       shape and font. Text represent the message on the shape, rect is the rectangle shape,
+    //       and font represents the desired font for the text.
     public void drawCenteredString(Graphics g, String text, Rectangle2D rect, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
         double x = rect.getX() + (rect.getWidth() - metrics.stringWidth(text)) / 2;
@@ -27,6 +19,9 @@ public final class TextAlignment {
         g.drawString(text, (int) x, (int) y);
     }
 
+    // post: Draws a message centered in teh middle of a given oval shape from a given oval
+    //       shape and font. Text represent the message on the shape, oval is the oval shape,
+    //       and font represents the desired font for the text.
     public void drawCenteredStringOval(Graphics g, String text, Ellipse2D oval, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
         double x = oval.getX() + (oval.getWidth() - metrics.stringWidth(text)) / 2;
@@ -35,6 +30,9 @@ public final class TextAlignment {
         g.drawString(text, (int) x, (int) y);
     }
 
+    // post: Draws a message centered to the top on a given rectangle shape from a given rectangle
+    //       shape and font. Text represent the message on the shape, rect is the rectangle shape,
+    //       and font represents the desired font for the text.
     public void drawCenteredStringTop(Graphics g, String text, Rectangle2D rect, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
         double x = rect.getX() + (rect.getWidth() - metrics.stringWidth(text)) / 2;

@@ -1,3 +1,7 @@
+// The GameListener class handles the input and game object interaction with the mouse. It is able to
+// complete the actions of hitting a card by adding a card to a player hand, increasing bids, setting
+// ace card values, and resetting the game.
+
 package BlackJack;
 
 import java.awt.event.MouseAdapter;
@@ -5,18 +9,27 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class GameListener extends MouseAdapter {
+    // gamePlay represents the BlackJack game being played between the player and dealer
     public Gameplay gamePlay;
 
+    // post: GameListener constructs the input listening for the game objects in gamePlay
     public GameListener (Gameplay gamePlay) {
         this.gamePlay = gamePlay;
     }
 
+    // post: Receives mouse input and responds with actions to progress the BlackJack game.
+    //       The MouseEvent e parameter represents mouse clicking on buttons in the gamePlay game.
     public void mouseClicked(MouseEvent e) {
+        // The player input is received when mouse left-clicking
         if (e.getButton() == 1) {
+            // The inputs for when the player hand has not held or busted is prioritized first over
+            // the inputs for the button inputs for the split hand.
             if (gamePlay.game) {
+                // Pressing the hold button ends the player hand
                 if (gamePlay.holdButton.contains(e.getX(), e.getY()) && gamePlay.player.hand.size() >= 2 && !gamePlay.player.newAce) {
                     gamePlay.game = false;
                 }
+                // Pressing the hit button adds a card to the player's hand
                 if (gamePlay.hitButton.contains(e.getX(), e.getY()) && !gamePlay.player.newAce && gamePlay.bid) {
                     if (gamePlay.bid) {
                         Card temp = gamePlay.deck.draw();
@@ -24,7 +37,7 @@ public class GameListener extends MouseAdapter {
                             gamePlay.player.newAce = true;
                         }
                         gamePlay.player.add(temp);
-                        // gamePlay.player.add(gamePlay.test.draw());
+                        // Empty deck is filled and shuffled
                         if (gamePlay.deck.deck.isEmpty()) {
                             gamePlay.deck.deck.clear();
                             gamePlay.deck.fillDeck();
@@ -32,15 +45,16 @@ public class GameListener extends MouseAdapter {
                         }
                     }
                 }
+                // A player can double their bet after receiving two cards
                 if (gamePlay.doubleButton.contains(e.getX(), e.getY())) {
-                    if (gamePlay.player.getHand().size() == 2) {
+                    if (gamePlay.player.hand.size() == 2) {
                         int bidValue = gamePlay.player.getBid();
                         if (bidValue * 2 <= gamePlay.player.getFunds()) {
                             gamePlay.player.setBid(bidValue * 2);
                         }
                     }
                 }
-
+                // A player must first enter a bid
                 if (!gamePlay.bid) {
                     int handValue = gamePlay.player.getFunds();
                     int bidValue = gamePlay.player.getBid();
@@ -57,10 +71,12 @@ public class GameListener extends MouseAdapter {
                         gamePlay.player.setBid(gamePlay.player.getBid() + 1);
                     }
                 }
+                // Pressing the bid button finalizes a player's bid
                 if (gamePlay.bidButton.contains(e.getX(), e.getY())) {
                     gamePlay.bid = true;
-                    gamePlay.repaint();
                 }
+                // Pressing the one button updates the ace value to a one and the eleven button updates
+                // the ace value to an eleven. Pressing the yes button for splitting the hand splits the hand.
                 if (gamePlay.rectOne.contains(e.getX(), e.getY()) && gamePlay.player.newAce) {
                     ArrayList<Card> player = gamePlay.player.hand;
                     Card aceCard = player.get(player.size() - 1);
@@ -72,52 +88,64 @@ public class GameListener extends MouseAdapter {
                     gamePlay.player.hand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE11));
                     gamePlay.player.newAce = false;
                 } else if (gamePlay.yesButton.contains(e.getX(), e.getY())) {
-                    gamePlay.player.splitHand.add(gamePlay.player.hand.get(1));
+                    Card temp = gamePlay.player.hand.get(1);
+                    if (temp.getRank().getRankLabel().equals("ace")) {
+                        gamePlay.player.splitHand.add(new Card(temp.getSuit(), Card.Rank.ACE11));
+                    } else {
+                        gamePlay.player.splitHand.add(temp);
+                    }
                     gamePlay.player.hand.remove(1);
                     gamePlay.player.setSplitBid(gamePlay.player.getBid());
                     gamePlay.player.split = true;
                     gamePlay.splitGame = true;
                     gamePlay.repaint();
                 }
-                /*
-                else if (gamePlay.noButton.contains(e.getX(), e.getY())) {
-                    gamePlay.player.split = false;
-                    gamePlay.splitGame = false;
-                    gamePlay.repaint();
-                }
-
-                 */
-
             } else if (gamePlay.splitGame) {
+                // Pressing the hold button ends the player's split hand
                 if (gamePlay.holdSplitButton.contains(e.getX(), e.getY()) && gamePlay.player.splitHand.size() >= 2 && !gamePlay.player.newAce) {
                     if (gamePlay.splitGame) {
                         gamePlay.splitGame = false;
-                        //gamePlay.dealer.getHand().get(1).setFaceUp(true);
                     }
                 }
+                // Pressing the hit button adds a card to the player's hand
                 if (gamePlay.hitSplitButton.contains(e.getX(), e.getY()) && !gamePlay.player.newAce) {
-                    gamePlay.splitBid = false;
-                    //Card temp = gamePlay.deck.draw();
-                    //if (temp.getRank().getRankLabel().equals("ace")) {
-                    //    gamePlay.player.newAce = true;
-                    //}
-                    // gamePlay.player.add(temp);
-                    gamePlay.player.splitAdd(gamePlay.deck.draw());
+                    Card temp = gamePlay.deck.draw();
+                    if (temp.getRank().getRankLabel().equals("ace")) {
+                        gamePlay.player.newSplitAce = true;
+                    }
+                    gamePlay.player.splitAdd(temp);
+                    // Empty deck is filled and shuffled
                     if (gamePlay.deck.deck.isEmpty()) {
                         gamePlay.deck.deck.clear();
                         gamePlay.deck.fillDeck();
                         gamePlay.deck.shuffle();
                     }
                 }
+                // A player can double their bet after receiving two cards for their split hand
                 if (gamePlay.doubleButton.contains(e.getX(), e.getY())) {
-                    if (gamePlay.player.getSplitHand().size() == 2) {
+                    if (gamePlay.player.splitHand.size() == 2) {
                         int bidValue = gamePlay.player.getSplitBid();
                         if (bidValue * 2 <= gamePlay.player.getFunds()) {
                             gamePlay.player.setSplitBid(bidValue * 2);
                         }
                     }
                 }
+                // Pressing the one button updates the ace value to a one and the eleven button updates
+                // the ace value to an eleven.
+                if (gamePlay.rectOne.contains(e.getX(), e.getY()) && gamePlay.player.newSplitAce) {
+                    ArrayList<Card> player = gamePlay.player.splitHand;
+                    Card aceCard = player.get(player.size() - 1);
+                    gamePlay.player.splitHand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE));
+                    gamePlay.player.newSplitAce = false;
+                } else if (gamePlay.rectEleven.contains(e.getX(), e.getY()) && gamePlay.player.newSplitAce) {
+                    ArrayList<Card> player = gamePlay.player.splitHand;
+                    Card aceCard = player.get(player.size() - 1);
+                    gamePlay.player.splitHand.set(player.size() - 1, new Card(aceCard.getSuit(), Card.Rank.ACE11));
+                    gamePlay.player.newSplitAce = false;
+                }
             } else {
+                // A player with a busted/held hand and split hand will end the hand and start a new one
+                // with updated funds, bids, and cards.
                 if (gamePlay.textButton.contains(e.getX(), e.getY())) {
                     if (gamePlay.player.getFunds() == 0) {
                         gamePlay.player.setFunds(2500);

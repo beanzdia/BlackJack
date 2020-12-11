@@ -1,7 +1,14 @@
+// Sonali Chandra, Alejandro Diaz, and Katie Thien
+// CSE 143 Final Project
+// The Main class creates the window for the BlackJack game that is played between
+// a player and a dealer. The game is played through mouse clicking and standard
+// BlackJack rules. A standard deck of card is used including aces. The player is able
+// to split their hand and place bets that they can lose, receive a payout from the dealer,
+// or push.
+
 package BlackJack;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {

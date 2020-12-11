@@ -1,53 +1,67 @@
+// The DeckGenerator class generates and draws the cards in the hand of a player.
+// It also draws the cards in the split hand when appropriate. The hand of a dealer
+// can also be drawn.
+
 package BlackJack;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class DeckGenerator extends Component {
-    public int cardWidth = 69;
-    public int cardHeight = 108;
-    public int hSpacing = 10;
-    public int vSpacing = 50;
-    public int n;
-    public ArrayList<Card> deck;
-    public ArrayList<Card> splitDeck;
-    public Player player;
-    public Rectangle2D yesButton;
-    public Rectangle2D noButton;
-    public Rectangle2D rectOne;
-    public Rectangle2D rectEleven;
-    TextAlignment textAlign;
-    private boolean splitHand;
+    // The width of the Blackjack cards
+    private int cardWidth = 69;
+    // Deck stores the Cards in the hand of a player/dealer
+    private ArrayList<Card> deck;
+    // splitDeck stores the Cards in the split hand of a player
+    private ArrayList<Card> splitDeck;
+    // player represents either a user/player or dealer
+    private Player player;
 
+    // pre: Player player cannot be null.
+    // post: DeckGenerator represents the card objects in the player's hand and split hand.
+    //       The parameter player represents either the player or the dealer.
     public DeckGenerator(Player player) {
-        TextAlignment textAlign = new TextAlignment();
-        this.splitHand = splitHand;
-        this.deck = player.getHand();
-        this.splitDeck = player.getSplitHand();
+        this.deck = player.hand;
+        this.splitDeck = player.splitHand;
         this.player = player;
-        yesButton = new Rectangle2D.Double(125, 150,75,50);
-        noButton = new Rectangle2D.Double(225, 150,75,50);
     }
 
-    // Draw the players hand when the player is a player
-    public void draw(Graphics2D g) {
+    // pre: Graphics2D g cannot be null
+    // post: Draw the cards in the player's hand and split hand with appropriate hand, funds,
+    // and bid value. Accepts a parameter g which creates and draws the game objects. The
+    // parameter split represents whether the player has a split hand or only one hand.
+    public void draw(Graphics2D g, boolean split) {
         g.setColor(Color.black);
         g.setFont(new Font("serif", Font.BOLD, 30));
         g.drawString("Hand: " + player.handValue(), 20,266 + 50);
         g.drawString("Funds: $" + player.getFunds(), 20,266 + 75);
         g.drawString("Bid: $" + player.getBid(), 20, 266 + 100);
-        g.setColor(Color.white);
-        for (int i = 0; i < deck.size(); i++) {
-            ImageIcon temp = deck.get(i).drawCardImage();
-            temp.paintIcon(this,g, 200 + (cardWidth / 2) * i, 266);
+        if (split) {
+            g.drawString("Hand: " + player.splitHandValue(), 280 + 75,266 + 50);
+            g.drawString("Bid: $" + player.getSplitBid(), 280 + 75,266 + 75);
+            g.setColor(Color.white);
+            for (int i = 0; i < deck.size(); i++) {
+                ImageIcon temp = deck.get(i).drawCardImage();
+                temp.paintIcon(this,g, 200 + (cardWidth / 8) * i, 266);
+            }
+            for (int i = 0; i < splitDeck.size(); i++) {
+                ImageIcon temp = splitDeck.get(i).drawCardImage();
+                temp.paintIcon(this,g, 500 + (cardWidth / 8) * i, 266);
+            }
+        } else {
+            for (int i = 0; i < deck.size(); i++) {
+                ImageIcon temp = deck.get(i).drawCardImage();
+                temp.paintIcon(this,g, 200 + (cardWidth / 2) * i, 266);
+            }
         }
     }
 
-    // Draw the dealers hand when the player is the dealer
+    // pre: Graphics2D g cannot be null
+    // post: Draw the cards in the dealer's hand and split hand with appropriate hand, funds,
+    // and bid value. Accepts a parameter g which creates and draws the game objects. The
+    // parameter game and split game represent when the user/player has busted/held on
+    // their hand and split hand.
     public void dealerDraw(Graphics2D g, boolean game, boolean splitGame) {
         g.setColor(Color.black);
         g.setFont(new Font("serif", Font.BOLD, 30));
@@ -60,26 +74,6 @@ public class DeckGenerator extends Component {
         for (int i = 0; i < deck.size(); i++) {
             ImageIcon temp = deck.get(i).drawCardImage();
             temp.paintIcon(this,g, 200 + (cardWidth / 2) * i, 125);
-        }
-    }
-
-    // potential splitdraw method
-    public void splitDraw(Graphics2D g) {
-        g.setColor(Color.black);
-        g.setFont(new Font("serif", Font.BOLD, 26));
-        g.drawString("Hand: " + player.handValue(), 20,266 + 50);
-        g.drawString("Funds: $" + player.getFunds(), 20,266 + 75);
-        g.drawString("Bid: $" + player.getBid(), 20, 266 + 100);
-        g.drawString("Hand: " + player.splitHandValue(), 300 + 75,266 + 50);
-        g.drawString("Bid: $" + player.getSplitBid(), 300 + 75,266 + 75);
-        g.setColor(Color.white);
-        for (int i = 0; i < deck.size(); i++) {
-            ImageIcon temp = deck.get(i).drawCardImage();
-            temp.paintIcon(this,g, 200 + (cardWidth / 8) * i, 266);
-        }
-        for (int i = 0; i < splitDeck.size(); i++) {
-            ImageIcon temp = splitDeck.get(i).drawCardImage();
-            temp.paintIcon(this,g, 500 + (cardWidth / 8) * i, 266);
         }
     }
 }
