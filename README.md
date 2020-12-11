@@ -8,7 +8,7 @@ Once the correct version of JDK is installed or updated, users can then clone th
 
 To clone a repository, open Git Bash, navigate to the folder you want to store our repository in(i.e. Documents), and type: 
 
-`git clone https://github.com/beanzdia/test.git`
+`https://github.com/beanzdia/BlackJack.git`
     
 From there, our repository should be stored on your computer! You can then open your File Explorer, navigate to our ‘BlackJack’ repository, open the ‘src’ folder, open ‘BlackJack’ again, and from there, you should see our collection of .java files. 
 
@@ -32,3 +32,6 @@ Once that window is up and running, you are now able to play a game of BlackJack
 #### Edge cases:
 - When a player gets an Ace card, the player can choose a value of 1 or 11 for that card; the value is up to the discretion of the player.
 - When a player acquires a double(e.g. A pair of Sevens), they can choose whether to split that hand or not. If accepted, the player will be able to split their one hand into two, meaning they have two hands to play with simultaneously. If one hand goes over 21, the player has another chance with the second hand. 
+
+Here is a link to our BlackJack Demo:
+https://www.youtube.com/watch?v=VML12vGq2GI
