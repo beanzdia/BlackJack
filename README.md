@@ -32,6 +32,8 @@ Opening in an Ed workspace is not recommended because we noticed that the graphi
 - Now, type in the terminal `java -cp ./src/ BlackJack.Main`.
 - A panel with the game should open now.
 
+![](ed_instructions.png)
+
 Once that window is up and running, you are now able to play a game of BlackJack! We will show more of the user flow in the video itself, but here are some of the main rules on how to play:
 - Both the player (you) and the dealer (NPC) will have a hand of cards; the goal of BlackJack is to beat the dealer's hand without going over 21.
 - Each player starts with two cards, and one of the dealer's cards is hidden until the end of the round.
