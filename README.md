@@ -23,6 +23,8 @@ If not, here are some troubleshooting steps you can take:
 - Make sure the JRE is running the latest version of Java version 15.0.1
 - Make sure all of the files and dependencies are present i.e. all of the classes, the img folder, etc.
 
+The img folder should have 54 images where two are the game's icon, `icon.png`, and the back of a card, `down.jpg`. The remaining 52 cards are named after their suit and rank such as `club_ace.jpg`, `diamond_ten.jpg`, and `spade_king.jpg`. Ensure that there are four suits (diamond, club, spade, and heart). Each suit should have a card from 2-9, king, queen, jack, and ace. All files must follow the naming convention as indicated as before.
+
 Opening in an Ed workspace is not recommended because we noticed that the graphics became distored in the window panel. The steps to open in Ed follow as:
 - Open the terminal then type and enter `git clone https://github.com/beanzdia/BlackJack.git`.
 - Type in the directory `cd BlackJack` and hit enter. Entering the `ls` command should show `DESIGN.md  folderTree.png  README.md  reflection.txt  src`. If unsure about your location, keep entering `cd -` to return to the root directory and try again.
