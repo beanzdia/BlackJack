@@ -17,7 +17,7 @@ Your folder tree should look something like:
 
 ![](folderTree.png)
 
-Now, if you open **Main.java** in your dev environment (we used IntelliJ), compile, and run it, a separate window with a green background and the title “BlackJack” across the top should appear. 
+Now, if you open **Main.java** in your dev environment (we recommend IntelliJ), compile, and run it, a separate window with a green background and the title “BlackJack” across the top should appear. 
 
 If not, here are some troubleshooting steps you can take:
 - Make sure the JRE is running the latest version of Java version 15.0.1
