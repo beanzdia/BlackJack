@@ -40,12 +40,11 @@ Once that window is up and running, you are now able to play a game of BlackJack
 - All face cards (Jack, Queen, King) are worth 10.
 - To 'Hit' is to ask for another card. To 'Hold’' is to hold your total and end your turn. The player is able to keep hitting until they get a number that is close to or equals 21. The player may also hold their total and compare it to the dealer’s total at the end of the round. The player can also "bust" which is to go over 21, which results in losing your bid.
 - The player starts with $2500 in funds, and is able to make wagers each round they play by pressing the “bid” button. They can also double their bid when they have at least two cards in their hand.
+- The game will continue playing until the user loses all of their funds to the dealer. The user can also exit out of the game by clicking on the "X" exit button on the window toolbar. The window is also not resizable.
 
 #### Edge cases:
 - When a player gets an Ace card, the player can choose a value of 1 or 11 for that card from a pop-up menu; the value is up to the discretion of the player.
-- When a player acquires a double (e.g. A pair of Sevens), they can choose whether to split that hand or not. If accepted, the player will be able to split the pair into two hands, meaning they have two hands to play with simultaneously. However, they must place a bet equivalent to their first hand in order to split. There are multiple outcomes such as winning/losing both hands and also pushing on one and winning/losing on the other hand.
-
-- The game will continue playing until the user loses all of their funds to the dealer. The user can also exit out of the game by clicking on the "X" exit button on the window toolbar. The window is also not resizable.
+- When a player acquires a double (e.g. A pair of Sevens), they can choose whether to split that hand or not. If accepted, the player will be able to split the pair into two hands, meaning they have two hands to play with simultaneously. However, they must place a bet equivalent to their first hand in order to split. There are multiple outcomes such as winning/losing both hands and also pushing on one and winning/losing on the other hand. Make sure to finish your turn on the left hand such as holding or busting before hitting on the second hand. It has to be sequential in order to handle the split hand.
 
 Here is a link to our BlackJack Demo:
 https://www.youtube.com/watch?v=VML12vGq2GI
